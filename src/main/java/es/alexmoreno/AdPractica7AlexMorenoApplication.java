@@ -1,4 +1,4 @@
-package es.alexmoreno.AD_Practica7_AlexMoreno;
+package es.alexmoreno;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
