@@ -42,6 +42,16 @@ public class Vehiculo {
         this.matricula = matricula;
     }
 
+    public Vehiculo(long idVehiculo, String modelo, double peso, String color, String matricula, Transportista transportista) {
+        this.idVehiculo = idVehiculo;
+        this.modelo = modelo;
+        this.peso = peso;
+        this.color = color;
+        this.matricula = matricula;
+        this.transportista = transportista;
+    }
+    
+
     public long getIdVehiculo() {
         return idVehiculo;
     }
@@ -81,5 +91,21 @@ public class Vehiculo {
     public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
-    
+
+    public Transportista getTransportista() {
+        return transportista;
+    }
+
+    public void setTransportista(Transportista transportista) {
+        this.transportista = transportista;
+    }
+    @Override
+    public String toString() {
+        return "IdVehiculo:"+idVehiculo
+                +"\nModelo:"+modelo
+                +"\nPeso:"+peso
+                +"\nColor:"+color
+                +"\nMatricula:"+matricula
+                +"\nTransportistaId:"+transportista;
+    }
 }

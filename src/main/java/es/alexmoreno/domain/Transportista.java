@@ -34,7 +34,7 @@ public class Transportista {
     //Un transportista tiene varias rutas y una ruta puede pertenecer a varios transportista 
     //(entiendo que la idea es que hagamos lo de la tabla extra )
     @OneToMany(mappedBy = "transportista",cascade = CascadeType.ALL)
-    private List<Transportista_Ruta> transportistasRuta=new ArrayList<>();
+    private List<Transportista_Ruta> transportistaRutas=new ArrayList<>();
     //Un transportista tiene un usuario, y un usuario pertenece a un transportista
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idUsuario")
@@ -55,6 +55,16 @@ public class Transportista {
         this.apellido = apellido;
         this.dni = dni;
     }
+
+    public Transportista(long idTransportista, String nombre, String apellido, String dni, Vehiculo vehiculo, Usuario usuario) {
+        this.idTransportista = idTransportista;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.dni = dni;
+        this.vehiculo = vehiculo;
+        this.usuario = usuario;
+    }
+    
 
     public long getIdTransportista() {
         return idTransportista;
@@ -86,6 +96,41 @@ public class Transportista {
 
     public void setDni(String dni) {
         this.dni = dni;
+    }
+
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
+    }
+
+    public List<Transportista_Ruta> getTransportistaRutas() {
+        return transportistaRutas;
+    }
+
+    public void setTransportistaRutas(List<Transportista_Ruta> transportistaRutas) {
+        this.transportistaRutas = transportistaRutas;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
+    @Override
+    public String toString(){
+        return "Id:"+idTransportista
+                +"\nNombre:"+nombre
+                +"\nApellido:"+apellido
+                +"\nDNI:"+dni
+                +"\nVehiculo:"+vehiculo
+                +"\nRuta:"+transportistaRutas
+                +"\nUsuario:"+usuario;
     }
     
     

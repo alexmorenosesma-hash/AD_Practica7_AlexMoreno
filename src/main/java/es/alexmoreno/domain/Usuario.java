@@ -45,6 +45,16 @@ public class Usuario {
         this.email = email;
     }
 
+    public Usuario(long idUsuario, String usuarioNombre, String contrasena, String email, Rol rol, Transportista transportista) {
+        this.idUsuario = idUsuario;
+        this.usuarioNombre = usuarioNombre;
+        this.contrasena = contrasena;
+        this.email = email;
+        this.rol = rol;
+        this.transportista = transportista;
+    }
+    
+
     public long getIdUsuario() {
         return idUsuario;
     }
@@ -76,5 +86,29 @@ public class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    public Transportista getTransportista() {
+        return transportista;
+    }
+
+    public void setTransportista(Transportista transportista) {
+        this.transportista = transportista;
+    }
+    @Override
+    public String toString() {
+        return "IdUsuario:"+idUsuario
+            +"\nNombre de Usuario:"+usuarioNombre
+            +"\nContraseña:"+contrasena
+            +"\nEmail:"+email
+            +"\nRol:"+rol
+            +"\nTransportistaId:"+transportista;
+    }    
 }
