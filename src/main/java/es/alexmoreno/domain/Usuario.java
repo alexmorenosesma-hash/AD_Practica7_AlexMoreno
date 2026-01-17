@@ -1,18 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package es.alexmoreno.domain;
 
-/**
- *
- * @author alexm
- */
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "Usuario")
 public class Usuario {
-    long idUsuario;
-    String usuarioNombre;
-    String contrasena;
-    String email;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long idUsuario;
+    @Column(name = "usuarioNombre",nullable = false,length = 20)
+    private String usuarioNombre;
+    @Column(name ="contraseña",nullable = false,length = 50)
+    private String contrasena;
+    @Column(name = "email",nullable = false,length = 100)
+    private String email;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "rol")
+    private Rol rol;
+    
+    @OneToOne(mappedBy = "usuario")
+    private Transportista transportista;
 
     public Usuario() {
     }

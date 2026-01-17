@@ -1,13 +1,29 @@
 package es.alexmoreno.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "Vehiculo")
 public class Vehiculo {
-    long idVehiculo;
-    String modelo;
-    double peso;
-    String color;
-    String matricula;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long idVehiculo;
+    @Column(name ="modelo",nullable = false,length = 50)
+    private String modelo;
+    @Column(name = "peso",nullable = true)
+    private double peso;
+    @Column(name = "color",nullable = true, length = 20)
+    private String color;
+    @Column(name = "matricula",nullable = false,length = 7)
+    private String matricula;
+    @OneToOne(mappedBy = "vehiculo")
+    private Transportista transportista;
     public Vehiculo() {
     }
 
