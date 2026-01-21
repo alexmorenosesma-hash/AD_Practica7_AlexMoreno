@@ -1,14 +1,20 @@
 package es.alexmoreno.domain;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Usuario")
@@ -22,9 +28,13 @@ public class Usuario {
     private String contrasena;
     @Column(name = "email",nullable = false,length = 100)
     private String email;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "usuario_roles",joinColumns = @JoinColumn(name="user_id"))
     @Enumerated(EnumType.STRING)
-    @Column(name = "rol")
-    private Rol rol;
+    @Column(name = "roles")
+    private Set<Rol> roles=new HashSet<>();
+    @Column(name="activo",nullable = false)
+    private boolean activo=true;
     
     @OneToOne(mappedBy = "usuario")
     private Transportista transportista;
@@ -45,12 +55,12 @@ public class Usuario {
         this.email = email;
     }
 
-    public Usuario(long idUsuario, String usuarioNombre, String contrasena, String email, Rol rol, Transportista transportista) {
+    public Usuario(long idUsuario, String usuarioNombre, String contrasena, String email, Set<Rol> roles, Transportista transportista) {
         this.idUsuario = idUsuario;
         this.usuarioNombre = usuarioNombre;
         this.contrasena = contrasena;
         this.email = email;
-        this.rol = rol;
+        this.roles = roles;
         this.transportista = transportista;
     }
     
@@ -87,12 +97,12 @@ public class Usuario {
         this.email = email;
     }
 
-    public Rol getRol() {
-        return rol;
+    public Set<Rol> getRoles() {
+        return roles;
     }
 
-    public void setRol(Rol rol) {
-        this.rol = rol;
+    public void setRol(Set<Rol> roles) {
+        this.roles = roles;
     }
 
     public Transportista getTransportista() {
@@ -102,13 +112,23 @@ public class Usuario {
     public void setTransportista(Transportista transportista) {
         this.transportista = transportista;
     }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+    
     @Override
     public String toString() {
         return "IdUsuario:"+idUsuario
             +"\nNombre de Usuario:"+usuarioNombre
             +"\nContraseña:"+contrasena
             +"\nEmail:"+email
-            +"\nRol:"+rol
+            +"\nRol:"+roles
+            +"\nActivo:"+activo
             +"\nTransportistaId:"+transportista;
     }    
 }
