@@ -46,6 +46,16 @@ public class VehiculoService {
         }
     }
     
+    public void eliminarVehiculo(long id){
+        Usuario currentUser=userContext.getCurrentUser();
+        
+        if (currentUser.getRoles().contains(Rol.Admin)){
+            vehiculoRepository.deleteById(id);
+        }else{
+            throw new RuntimeException("No tienes permisos para eliminar el vehiculo");
+        }
+    }
+    
     public List<Vehiculo> listarVehiculos(){
         Usuario currentUser=userContext.getCurrentUser();
         if (currentUser.getRoles().contains(Rol.Admin)){
