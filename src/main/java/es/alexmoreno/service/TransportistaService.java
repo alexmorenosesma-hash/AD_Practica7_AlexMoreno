@@ -90,13 +90,13 @@ public class TransportistaService {
     }
     
     @Transactional
-    public void eliminarVehiculo(long id){
+    public Transportista eliminarVehiculo(long id){
         Usuario currentUser=userContext.getCurrentUser();
         
         if(currentUser.getRoles().contains(Rol.Admin)){
             Transportista transportista=buscarId(id);
             transportista.setVehiculo(null);
-            transportistaRepository.save(transportista);
+            return transportistaRepository.save(transportista);
         }else{
             throw new RuntimeException("No tienes permisos para eliminar vehiculos a transportistas");
         }
