@@ -11,6 +11,7 @@ import es.alexmoreno.repository.RutaRepository;
 import es.alexmoreno.security.UserContext;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,10 +69,10 @@ public class RutaService {
         }
     }
     
-    public List<Ruta> listarRuta(){
+    public List<RutaDTO> listarRuta(){
         Usuario currentUser=userContext.getCurrentUser();
         if (currentUser.getRoles().contains(Rol.Admin)){
-            return rutaRepository.findAll();
+            return rutaRepository.findAll().stream().map(ruta->new RutaAssembler().toDTO(ruta)).collect(Collectors.toList());
         }else{
             throw new RuntimeException("No tienes permisos para ver a todos las rutas");
         }
