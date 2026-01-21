@@ -5,6 +5,7 @@ import es.alexmoreno.domain.Usuario;
 import es.alexmoreno.domain.Vehiculo;
 import es.alexmoreno.repository.VehiculoRepository;
 import es.alexmoreno.security.UserContext;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ public class VehiculoService {
     @Autowired
     private  UserContext userContext;
     
+    @Transactional
     public Vehiculo crearVehiculo(Vehiculo vehiculo){
         Usuario currentUser=userContext.getCurrentUser();
         if (currentUser.getRoles().contains(Rol.Admin)){
@@ -30,6 +32,7 @@ public class VehiculoService {
         return vehiculoRepository.findById(id).orElseThrow(()->new RuntimeException("No se ha encontrado el vehiculo"));
     }
     
+    @Transactional
     public Vehiculo modificarVehiculo(long id,Vehiculo vehiculo){
         Usuario currentUser=userContext.getCurrentUser();
         
@@ -46,6 +49,7 @@ public class VehiculoService {
         }
     }
     
+    @Transactional
     public void eliminarVehiculo(long id){
         Usuario currentUser=userContext.getCurrentUser();
         
