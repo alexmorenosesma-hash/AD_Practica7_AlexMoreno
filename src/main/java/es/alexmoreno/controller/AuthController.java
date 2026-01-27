@@ -1,0 +1,54 @@
+package es.alexmoreno.controller;
+
+import es.alexmoreno.dto.LoginRequest;
+import es.alexmoreno.dto.RegisterRequest;
+import es.alexmoreno.service.AuthService;
+import jakarta.validation.Valid;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
+@RestController
+@RequestMapping("/api/auth")
+@CrossOrigin(origins = "*")
+public class AuthController {
+
+    @Autowired
+    private AuthService authService;
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
+        try {
+            Map<String, Object> response = authService.register(
+                    request.getUsername(),
+                    request.getPassword(),
+                    request.getEmail()
+            );
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
+        try {
+            Map<String, Object> response = authService.login(
+                    request.getUsername(),
+                    request.getPassword()
+            );
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Invalid username or password"));
+        }
+    }
+}
