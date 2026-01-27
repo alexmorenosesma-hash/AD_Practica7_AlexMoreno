@@ -7,6 +7,7 @@ import es.alexmoreno.domain.Transportista_Ruta;
 import es.alexmoreno.domain.Usuario;
 import es.alexmoreno.domain.Vehiculo;
 import es.alexmoreno.repository.TransportistaRepository;
+import es.alexmoreno.repository.VehiculoRepository;
 import es.alexmoreno.security.UserContext;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 public class TransportistaService {
     @Autowired
     private  TransportistaRepository transportistaRepository;
+    @Autowired
+    private VehiculoRepository vehiculoRepository;
     @Autowired
     private  UserContext userContext;
     
@@ -77,11 +80,12 @@ public class TransportistaService {
     }
     
     @Transactional
-    public Transportista asignarVehiculo(long id,Vehiculo vehiculo){
+    public Transportista asignarVehiculo(long id,long idVehiculo){
         Usuario currentUser=userContext.getCurrentUser();
         
         if(currentUser.getRoles().contains(Rol.Admin)){
             Transportista transportista=buscarId(id);
+            Vehiculo vehiculo=vehiculoRepository.findById(idVehiculo).orElseThrow(()->new RuntimeException("Vehiculo no encontrado"));
             transportista.setVehiculo(vehiculo);
             return transportistaRepository.save(transportista);
         }else{
