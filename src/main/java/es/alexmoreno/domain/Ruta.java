@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,16 +25,16 @@ public class Ruta {
     @Column(name = "puntoFinal",nullable = false,length = 75)
     String puntoFinal;
     @Column(name = "horaInicio",nullable = false)
-    LocalDate horaInicio;
+    LocalTime horaInicio;
     @Column(name = "horaFinal",nullable = false)
-    LocalDate horaFinal;
+    LocalTime horaFinal;
     @OneToMany(mappedBy = "ruta",cascade = CascadeType.ALL)
     private List<Transportista_Ruta> transportistaRuta=new ArrayList<>();
 
     public Ruta() {
     }
 
-    public Ruta(long idRuta, String puntoInicio, String puntoFinal, LocalDate horaInicio, LocalDate horaFinal) {
+    public Ruta(long idRuta, String puntoInicio, String puntoFinal, LocalTime horaInicio, LocalTime horaFinal) {
         this.idRuta = idRuta;
         this.puntoInicio = puntoInicio;
         this.puntoFinal = puntoFinal;
@@ -41,7 +42,7 @@ public class Ruta {
         this.horaFinal = horaFinal;
     }
 
-    public Ruta(String puntoInicio, String puntoFinal, LocalDate horaInicio, LocalDate horaFinal) {
+    public Ruta(String puntoInicio, String puntoFinal, LocalTime horaInicio, LocalTime horaFinal) {
         this.puntoInicio = puntoInicio;
         this.puntoFinal = puntoFinal;
         this.horaInicio = horaInicio;
@@ -73,19 +74,19 @@ public class Ruta {
         this.puntoFinal = puntoFinal;
     }
 
-    public LocalDate getHoraInicio() {
+    public LocalTime getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(LocalDate horaInicio) {
+    public void setHoraInicio(LocalTime horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public LocalDate getHoraFinal() {
+    public LocalTime getHoraFinal() {
         return horaFinal;
     }
 
-    public void setHoraFinal(LocalDate horaFinal) {
+    public void setHoraFinal(LocalTime horaFinal) {
         this.horaFinal = horaFinal;
     }
 

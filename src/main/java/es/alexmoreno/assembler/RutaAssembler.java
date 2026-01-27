@@ -4,8 +4,9 @@ import es.alexmoreno.domain.Ruta;
 import es.alexmoreno.dto.RutaDTO;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class RutaAssembler {
     public RutaDTO toDTO(Ruta ruta){
         RutaDTO rutaDTO=new RutaDTO();

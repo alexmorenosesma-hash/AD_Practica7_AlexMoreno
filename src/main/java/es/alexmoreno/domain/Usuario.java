@@ -24,7 +24,7 @@ public class Usuario {
     private long idUsuario;
     @Column(name = "usuarioNombre",nullable = false,length = 20)
     private String usuarioNombre;
-    @Column(name ="contraseña",nullable = false,length = 50)
+    @Column(name ="contraseña",nullable = false,length = 100)
     private String contrasena;
     @Column(name = "email",nullable = false,length = 100)
     private String email;

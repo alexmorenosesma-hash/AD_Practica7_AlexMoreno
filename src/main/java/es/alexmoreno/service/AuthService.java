@@ -1,5 +1,6 @@
 package es.alexmoreno.service;
 
+import es.alexmoreno.domain.Rol;
 import es.alexmoreno.domain.Usuario;
 import es.alexmoreno.repository.UsuarioRepository;
 import es.alexmoreno.security.JwtTokenProvider;
@@ -42,6 +43,7 @@ public class AuthService {
         }
 
         Usuario user = new Usuario(username, passwordEncoder.encode(password), email);
+        user.getRoles().add(Rol.Transportista);
         user = userRepository.save(user);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
