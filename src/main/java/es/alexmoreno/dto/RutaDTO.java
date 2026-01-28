@@ -30,6 +30,14 @@ public class RutaDTO {
         this.horaInicio = horaInicio;
         this.horaFinal = horaFinal;
     }
+
+    public RutaDTO(String puntoInicio, String puntoFinal, String horaInicio, String horaFinal) {
+        this.puntoInicio = puntoInicio;
+        this.puntoFinal = puntoFinal;
+        this.horaInicio = horaInicio;
+        this.horaFinal = horaFinal;
+    }
+    
     public long getIdRuta() {
         return idRuta;
     }
