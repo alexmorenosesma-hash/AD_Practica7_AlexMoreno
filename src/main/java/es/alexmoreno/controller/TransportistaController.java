@@ -1,6 +1,7 @@
 package es.alexmoreno.controller;
 
 import es.alexmoreno.domain.Transportista;
+import es.alexmoreno.domain.Usuario;
 import es.alexmoreno.domain.Vehiculo;
 import es.alexmoreno.service.TransportistaService;
 import java.util.List;
@@ -29,29 +30,41 @@ public class TransportistaController {
     public Transportista crearTransportista(@RequestBody Transportista transportista){
         return transportistaService.crearTransportista(transportista);
     }
+    
     @PreAuthorize("hasRole('Admin')")
     @PutMapping("/{id}")
     public Transportista modificarTransportista(@PathVariable long id,@RequestBody Transportista transportista){
         return transportistaService.modificarTransportista(id, transportista);
     }
+    
     @PreAuthorize("hasRole('Admin')")
     @DeleteMapping("/{id}")
     public void eliminarTransportista(@PathVariable long id){
         transportistaService.eliminarTransportista(id);
     }
+    
     @PreAuthorize("hasRole('Transportista') or hasRole('Admin')")
     @GetMapping
     public List<Transportista> mostrarDatos(){
         return transportistaService.verDatos();
     }
+    
     @PreAuthorize("hasRole('Admin')")
     @PutMapping("/{id}/asignarVehiculo/{idVehiculo}")
     public Transportista asignarVehiculo(@PathVariable long id,@PathVariable long idVehiculo){
         return transportistaService.asignarVehiculo(id, idVehiculo);
     }
+    
     @PreAuthorize("hasRole('Admin')")
     @PutMapping("/{id}/desasignarVehiculo")
     public Transportista desasignarVehiculo(@PathVariable long id){
         return transportistaService.eliminarVehiculo(id);
     }
+    
+    @PreAuthorize("hasRole('Admin')")
+    @PutMapping("/{id}/asignarUsuario/{idUsuario}")
+    public Transportista asignarUsuario(@PathVariable long id, @PathVariable long idUsuario){
+        return transportistaService.asignarUsuario(id, idUsuario);
+    }
+    
 }

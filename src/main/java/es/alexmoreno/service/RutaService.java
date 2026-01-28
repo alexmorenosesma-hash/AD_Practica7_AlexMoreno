@@ -33,7 +33,7 @@ public class RutaService {
             rutaRepository.save(ruta);
             return rutaAssembler.toDTO(ruta);
         }else{
-            throw new RuntimeException("No tienes privilegios suficientes para modificar la ruta");
+            throw new RuntimeException("No tienes permisos");
         }
     }
     
@@ -55,7 +55,7 @@ public class RutaService {
             rutaRepository.save(original);
             return rutaAssembler.toDTO(original);
         }else{
-            throw new RuntimeException("No tienes permisos suficentes para modificar una ruta");
+            throw new RuntimeException("No tienes permisos");
         }
     }
     
@@ -65,7 +65,7 @@ public class RutaService {
         if (currentUser.getRoles().contains(Rol.Admin)){
             rutaRepository.deleteById(id);
         }else{
-            throw new RuntimeException("No tienes permisos para eliminar rutas");
+            throw new RuntimeException("No tienes permisos");
         }
     }
     
@@ -74,7 +74,7 @@ public class RutaService {
         if (currentUser.getRoles().contains(Rol.Admin)){
             return rutaRepository.findAll().stream().map(ruta->new RutaAssembler().toDTO(ruta)).collect(Collectors.toList());
         }else{
-            throw new RuntimeException("No tienes permisos para ver a todos las rutas");
+            throw new RuntimeException("No tienes permisos");
         }
     }
     
@@ -84,7 +84,7 @@ public class RutaService {
         if(currentUser.getRoles().contains(Rol.Transportista)){
             return currentUser.getTransportista().getTransportistaRutas();
         }else{
-            throw new RuntimeException("No tienes suficientes permisos");
+            throw new RuntimeException("No tienes permisos");
         }
     }
 }

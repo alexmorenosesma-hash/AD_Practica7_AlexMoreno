@@ -7,6 +7,7 @@ import es.alexmoreno.domain.Transportista_Ruta;
 import es.alexmoreno.domain.Usuario;
 import es.alexmoreno.domain.Vehiculo;
 import es.alexmoreno.repository.TransportistaRepository;
+import es.alexmoreno.repository.UsuarioRepository;
 import es.alexmoreno.repository.VehiculoRepository;
 import es.alexmoreno.security.UserContext;
 import jakarta.transaction.Transactional;
@@ -22,6 +23,8 @@ public class TransportistaService {
     @Autowired
     private VehiculoRepository vehiculoRepository;
     @Autowired
+    private UsuarioRepository usuarioRepository;
+    @Autowired
     private  UserContext userContext;
     
     @Transactional
@@ -31,7 +34,7 @@ public class TransportistaService {
         if (currentUser.getRoles().contains(Rol.Admin)){
             return transportistaRepository.save(transportista);
         } else {
-            throw new RuntimeException("No tienes permisos para crear transportistas");
+            throw new RuntimeException("No tienes permisos");
         }
     }
     
@@ -53,7 +56,7 @@ public class TransportistaService {
             original.setUsuario(transportista.getUsuario());
             return transportistaRepository.save(original);
         }else{
-            throw new RuntimeException("No tienes permisos para modificar transportistas");
+            throw new RuntimeException("No tienes permisos");
         }
     }
     
@@ -64,7 +67,7 @@ public class TransportistaService {
         if (currentUser.getRoles().contains(Rol.Admin)){
             transportistaRepository.deleteById(id);
         }else{
-            throw new RuntimeException("No tienes permisos para eliminar transportistas");
+            throw new RuntimeException("No tienes permisos");
         }
     }
     
@@ -89,7 +92,7 @@ public class TransportistaService {
             transportista.setVehiculo(vehiculo);
             return transportistaRepository.save(transportista);
         }else{
-            throw new RuntimeException("No tienes permisos para asignar vehiculos a transportistas");
+            throw new RuntimeException("No tienes permisos");
         }
     }
     
@@ -102,7 +105,21 @@ public class TransportistaService {
             transportista.setVehiculo(null);
             return transportistaRepository.save(transportista);
         }else{
-            throw new RuntimeException("No tienes permisos para eliminar vehiculos a transportistas");
+            throw new RuntimeException("No tienes permisos");
+        }
+    }
+
+    @Transactional
+    public Transportista asignarUsuario(long id,long idUsuario){
+        Usuario currentUser=userContext.getCurrentUser();
+        
+        if (currentUser.getRoles().contains(Rol.Admin)){
+            Transportista transportista=buscarId(id);
+            Usuario usuario=usuarioRepository.findById(idUsuario).orElseThrow(()->new RuntimeException("Usuario no encontrado"));
+            transportista.setUsuario(usuario);
+            return transportistaRepository.save(transportista);
+        }else{
+            throw new RuntimeException("No tienes permisos");
         }
     }
     
@@ -111,7 +128,7 @@ public class TransportistaService {
         if (currentUser.getRoles().contains(Rol.Admin)){
             return transportistaRepository.findAll();
         }else{
-            throw new RuntimeException("No tienes permisos para ver todos los  transportistas");
+            throw new RuntimeException("No tienes permisos");
         }
     }
 }

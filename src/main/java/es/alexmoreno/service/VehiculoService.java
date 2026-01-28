@@ -23,7 +23,7 @@ public class VehiculoService {
         if (currentUser.getRoles().contains(Rol.Admin)){
            return vehiculoRepository.save(vehiculo);
         }else{
-            throw new RuntimeException("No tienes los privilegion necesarios para crear un vehiculo");
+            throw new RuntimeException("No tienes permisos");
         }
     }
     
@@ -45,7 +45,7 @@ public class VehiculoService {
             original.setTransportista(vehiculo.getTransportista());
             return vehiculoRepository.save(original);
         }else{
-            throw new RuntimeException("No tienes permisos suficiente para modificar un vehiculo");
+            throw new RuntimeException("No tienes permisos");
         }
     }
     
@@ -56,7 +56,7 @@ public class VehiculoService {
         if (currentUser.getRoles().contains(Rol.Admin)){
             vehiculoRepository.deleteById(id);
         }else{
-            throw new RuntimeException("No tienes permisos para eliminar el vehiculo");
+            throw new RuntimeException("No tienes permisos");
         }
     }
     
@@ -65,7 +65,7 @@ public class VehiculoService {
         if (currentUser.getRoles().contains(Rol.Admin)){
             return vehiculoRepository.findAll();
         }else{
-            throw new RuntimeException("No tienes permisos para ver a todos los vehiculos");
+            throw new RuntimeException("No tienes permisos");
         }
     }
     
@@ -75,7 +75,7 @@ public class VehiculoService {
         if(currentUser.getRoles().contains(Rol.Transportista)){
             return currentUser.getTransportista().getVehiculo();
         }else{
-            throw new RuntimeException("No tienes suficientes permisos");
+            throw new RuntimeException("No tienes permisos");
         }
     }
 }
