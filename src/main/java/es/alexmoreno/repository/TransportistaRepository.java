@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface TransportistaRepository extends JpaRepository<Transportista,Long>{
+    //Para obtener todas los transportistas
     Page<Transportista> findAll(Pageable pageable);
 }

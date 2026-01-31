@@ -6,5 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RutaRepository extends JpaRepository<Ruta, Long>{
+    //Para obtener todas las rutas
     Page <Ruta> findAll(Pageable pageable);
 }

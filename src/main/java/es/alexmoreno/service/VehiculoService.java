@@ -17,6 +17,7 @@ public class VehiculoService {
     @Autowired
     private  UserContext userContext;
     
+    //Metodo para crear un vehiculo
     @Transactional
     public Vehiculo crearVehiculo(Vehiculo vehiculo){
         Usuario currentUser=userContext.getCurrentUser();
@@ -27,7 +28,7 @@ public class VehiculoService {
         }
     }
     
-    
+    //Metodo para buscar por medio de una id
     public Vehiculo buscarId (long id){
         Usuario currentUser=userContext.getCurrentUser();
         long idUsuario=currentUser.getIdUsuario();
@@ -41,6 +42,7 @@ public class VehiculoService {
         }
     }
     
+    //Metodo para modificar las propiedades de un vehiculo
     @Transactional
     public Vehiculo modificarVehiculo(long id,Vehiculo vehiculo){
         Usuario currentUser=userContext.getCurrentUser();
@@ -58,6 +60,7 @@ public class VehiculoService {
         }
     }
     
+    //Metodo para eliminar un vehiculo de la base de datos
     @Transactional
     public void eliminarVehiculo(long id){
         Usuario currentUser=userContext.getCurrentUser();
@@ -68,7 +71,7 @@ public class VehiculoService {
             throw new RuntimeException("No tienes permisos");
         }
     }
-    
+    //Metodo para mostrar todos los vehiculos existentes
     public List<Vehiculo> listarVehiculos(){
         Usuario currentUser=userContext.getCurrentUser();
         if (currentUser.getRoles().contains(Rol.Admin)){
@@ -78,6 +81,7 @@ public class VehiculoService {
         }
     }
     
+    //Metodo para mostrar los datos del vehiculo actual del transportista
     public Vehiculo mostrarVehiculo(){
         Usuario currentUser=userContext.getCurrentUser();
         

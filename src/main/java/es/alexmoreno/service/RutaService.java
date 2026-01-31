@@ -24,6 +24,7 @@ public class RutaService {
     @Autowired
     RutaAssembler rutaAssembler;
     
+    //Metodo para crear una ruta
     @Transactional
     public RutaDTO crearRuta(RutaDTO rutaDTO){
         Usuario currentUser=userContext.getCurrentUser();
@@ -36,7 +37,7 @@ public class RutaService {
             throw new RuntimeException("No tienes permisos");
         }
     }
-    
+    //Metodo para buscar una ruta mediante su id
     public RutaDTO buscarId(long id){
         Usuario currentUser=userContext.getCurrentUser();
         long idUsuario=currentUser.getIdUsuario();
@@ -55,6 +56,7 @@ public class RutaService {
         }
     }
     
+    //Metodo para modificar las propiedades de la ruta
     @Transactional
     public RutaDTO modificarRuta(long id, RutaDTO rutaDTO){
         Usuario currentUser=userContext.getCurrentUser();
@@ -71,7 +73,7 @@ public class RutaService {
             throw new RuntimeException("No tienes permisos");
         }
     }
-    
+    //Metodo para eliminar una ruta
     @Transactional
     public void eliminarRuta(long id){
         Usuario currentUser=userContext.getCurrentUser();
@@ -81,7 +83,7 @@ public class RutaService {
             throw new RuntimeException("No tienes permisos");
         }
     }
-    
+    //Metodo para mostrar todas las rutas
     public List<RutaDTO> listarRuta(){
         Usuario currentUser=userContext.getCurrentUser();
         if (currentUser.getRoles().contains(Rol.Admin)){
@@ -90,7 +92,7 @@ public class RutaService {
             throw new RuntimeException("No tienes permisos");
         }
     }
-    
+    //Metodo para mostrar todas las rutas del transportista
     public List<Transportista_Ruta> mostrarRuta(){
         Usuario currentUser=userContext.getCurrentUser();
         

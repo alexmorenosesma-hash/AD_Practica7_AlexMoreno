@@ -30,6 +30,7 @@ public class TransportistaService {
     @Autowired
     private  UserContext userContext;
     
+    //Metodo para crear transportistas
     @Transactional
     public Transportista crearTransportista(Transportista transportista){
         Usuario currentUser=userContext.getCurrentUser();
@@ -40,7 +41,7 @@ public class TransportistaService {
             throw new RuntimeException("No tienes permisos");
         }
     }
-    
+    //Metodo para buscar un transportista por su id
     public Transportista buscarId(long id){
         Usuario currentUser=userContext.getCurrentUser();
         long idUser=currentUser.getIdUsuario();
@@ -53,7 +54,7 @@ public class TransportistaService {
             throw new RuntimeException("No tienes permisos");
         }
     }
-    
+    //Metodo para modificar un transportista
     @Transactional
     public Transportista modificarTransportista(Long id,Transportista transportista){
         Usuario currentUser=userContext.getCurrentUser();
@@ -71,7 +72,7 @@ public class TransportistaService {
             throw new RuntimeException("No tienes permisos");
         }
     }
-    
+    //Metodo para eliminar un transportista
     @Transactional
     public void eliminarTransportista(Long id){
         Usuario currentUser=userContext.getCurrentUser();
@@ -82,7 +83,7 @@ public class TransportistaService {
             throw new RuntimeException("No tienes permisos");
         }
     }
-    
+    //Metodo para ver los datos de un transportista
     public List<Transportista> verDatos(){
         Usuario currentUser=userContext.getCurrentUser();
         if (currentUser.getRoles().contains(Rol.Admin)){
@@ -94,6 +95,7 @@ public class TransportistaService {
         }
     }
     
+    //Metodo para asignar un vehiculo a un transportista
     @Transactional
     public Transportista asignarVehiculo(long id,long idVehiculo){
         Usuario currentUser=userContext.getCurrentUser();
@@ -108,6 +110,7 @@ public class TransportistaService {
         }
     }
     
+    //Metodo para quitar un vehiculo a un transportista
     @Transactional
     public Transportista eliminarVehiculo(long id){
         Usuario currentUser=userContext.getCurrentUser();
@@ -121,6 +124,7 @@ public class TransportistaService {
         }
     }
 
+    //Metodo para asignar un usuario a un transportista
     @Transactional
     public Transportista asignarUsuario(long id,long idUsuario){
         Usuario currentUser=userContext.getCurrentUser();
@@ -134,7 +138,7 @@ public class TransportistaService {
             throw new RuntimeException("No tienes permisos");
         }
     }
-    
+    //Metodo para asignar una ruta a un transportista
     @Transactional
     public Transportista asignarRuta(long id,long idRuta){
         Usuario currentUser=userContext.getCurrentUser();
@@ -150,7 +154,7 @@ public class TransportistaService {
             throw new RuntimeException("No tienes permisos"); 
         }
     }
-    
+    //Metodo para quitar una ruta de un transportista
     @Transactional
     public Transportista eliminarRuta(long id,long idRuta){
         Usuario currentUser=userContext.getCurrentUser();
@@ -162,6 +166,7 @@ public class TransportistaService {
             throw new RuntimeException("No tienes permisos");
         }
     }
+    //Metodo para mostrar todos los transportistas
     public List<Transportista> listarTodos(){
         Usuario currentUser=userContext.getCurrentUser();
         if (currentUser.getRoles().contains(Rol.Admin)){
