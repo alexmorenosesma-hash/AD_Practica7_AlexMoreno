@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package es.alexmoreno.controller;
 
+import es.alexmoreno.domain.Ruta;
 import es.alexmoreno.domain.Transportista_Ruta;
 import es.alexmoreno.domain.Vehiculo;
 import es.alexmoreno.dto.RutaDTO;
@@ -50,14 +47,21 @@ public class RutaController {
     
     @PreAuthorize("hasRole('Admin')")
     @GetMapping("/listar")
-    public List<RutaDTO> listarVehiculos(){
+        public List<RutaDTO> listarRuta(){
         return rutaService.listarRuta();
     }
     
     @PreAuthorize("hasRole('Transportista')")
     @GetMapping("/verDatos")
-    public List<Transportista_Ruta> verVehiculo(){
+    public List<Transportista_Ruta> verRuta(){
         return rutaService.mostrarRuta();
     }
+    
+    @PreAuthorize("hasRole('Admin') or hasRole('Transportista')")
+    @GetMapping("{id}")
+    public RutaDTO buscarIdRuta(@PathVariable long id){
+        return rutaService.buscarId(id);
+    }
+    
 }
 

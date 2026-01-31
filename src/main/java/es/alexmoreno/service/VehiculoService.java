@@ -27,9 +27,18 @@ public class VehiculoService {
         }
     }
     
-    //Es buscar por id
-    public Vehiculo buscarVehiculo(long id){
-        return vehiculoRepository.findById(id).orElseThrow(()->new RuntimeException("No se ha encontrado el vehiculo"));
+    
+    public Vehiculo buscarId (long id){
+        Usuario currentUser=userContext.getCurrentUser();
+        long idUsuario=currentUser.getIdUsuario();
+        Vehiculo vehiculo=vehiculoRepository.findById(id).orElseThrow(()->new RuntimeException("No se ha encontrado el vehiculo"));
+        if (currentUser.getRoles().contains(Rol.Admin)){
+            return vehiculo;
+        }else if(currentUser.getRoles().contains(Rol.Transportista) && idUsuario==vehiculo.getTransportista().getUsuario().getIdUsuario()){
+            return vehiculo;
+        }else{
+            throw new RuntimeException("No tienes permisos");
+        }
     }
     
     @Transactional
@@ -37,7 +46,7 @@ public class VehiculoService {
         Usuario currentUser=userContext.getCurrentUser();
         
         if (currentUser.getRoles().contains(Rol.Admin)){
-            Vehiculo original=buscarVehiculo(id);
+            Vehiculo original=buscarId(id);
             original.setColor(vehiculo.getColor());
             original.setMatricula(vehiculo.getMatricula());
             original.setModelo(vehiculo.getModelo());

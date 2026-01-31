@@ -37,23 +37,36 @@ public class RutaService {
         }
     }
     
-    public Ruta buscarRuta(long id){
-        return rutaRepository.findById(id).orElseThrow(()->new RuntimeException("No se ha encontrado la ruta"));
+    public RutaDTO buscarId(long id){
+        Usuario currentUser=userContext.getCurrentUser();
+        long idUsuario=currentUser.getIdUsuario();
+        Ruta ruta=rutaRepository.findById(id).orElseThrow(()->new RuntimeException("No se ha encontrado la ruta"));
+        if (currentUser.getRoles().contains(Rol.Admin)){
+            return rutaAssembler.toDTO(ruta);
+        }else if (currentUser.getRoles().contains(Rol.Transportista)){
+            for (Transportista_Ruta tR:ruta.getTransportistaRuta()){
+                if (tR.getTransportista().getUsuario().getIdUsuario() ==idUsuario){
+                    return rutaAssembler.toDTO(ruta);
+                }
+            }
+            throw new RuntimeException("No tienes permisos");
+        }else{
+            throw new RuntimeException("No tienes permisos");
+        }
     }
     
     @Transactional
     public RutaDTO modificarRuta(long id, RutaDTO rutaDTO){
         Usuario currentUser=userContext.getCurrentUser();
         if (currentUser.getRoles().contains(Rol.Admin)){
-            Ruta original=buscarRuta(id);
-            Ruta dto=rutaAssembler.toEntity(rutaDTO);
-            original.setPuntoInicio(dto.getPuntoInicio());
-            original.setPuntoFinal(dto.getPuntoFinal());
-            original.setHoraInicio(dto.getHoraInicio());
-            original.setHoraFinal(dto.getHoraFinal());
-            original.setTransportistaRuta(dto.getTransportistaRuta());
-            rutaRepository.save(original);
-            return rutaAssembler.toDTO(original);
+            RutaDTO original=buscarId(id);
+            original.setPuntoInicio(rutaDTO.getPuntoInicio());
+            original.setPuntoFinal(rutaDTO.getPuntoFinal());
+            original.setHoraInicio(rutaDTO.getHoraInicio());
+            original.setHoraFinal(rutaDTO.getHoraFinal());
+            original.setTransportistaRuta(rutaDTO.getTransportistaRuta());
+            rutaRepository.save(rutaAssembler.toEntity(original));
+            return original;
         }else{
             throw new RuntimeException("No tienes permisos");
         }
@@ -72,7 +85,7 @@ public class RutaService {
     public List<RutaDTO> listarRuta(){
         Usuario currentUser=userContext.getCurrentUser();
         if (currentUser.getRoles().contains(Rol.Admin)){
-            return rutaRepository.findAll().stream().map(ruta->new RutaAssembler().toDTO(ruta)).collect(Collectors.toList());
+            return rutaRepository.findAll().stream().map(rutaAssembler::toDTO).collect(Collectors.toList());
         }else{
             throw new RuntimeException("No tienes permisos");
         }

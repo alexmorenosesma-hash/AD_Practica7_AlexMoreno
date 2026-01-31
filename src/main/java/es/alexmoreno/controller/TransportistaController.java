@@ -67,4 +67,21 @@ public class TransportistaController {
         return transportistaService.asignarUsuario(id, idUsuario);
     }
     
+    @PreAuthorize("hasRole('Admin')")
+    @PutMapping("/{id}/asignarRuta/{idRuta}")
+    public Transportista asignarRuta(@PathVariable long id, @PathVariable long idRuta){
+        return transportistaService.asignarRuta(id, idRuta);
+    }
+    
+    @PreAuthorize("hasRole('Admin')")
+    @PutMapping("/{id}/desasignarRuta/{idRuta}")
+    public Transportista quitarRuta(@PathVariable long id, @PathVariable long idRuta){
+        return transportistaService.eliminarRuta(id, idRuta);
+    }
+    
+    @PreAuthorize("hasRole('Admin') or hasRole('Transportista')")
+    @GetMapping("{id}")
+    public Transportista buscarIDTransportista(@PathVariable long id){
+        return transportistaService.buscarId(id);
+    }
 }

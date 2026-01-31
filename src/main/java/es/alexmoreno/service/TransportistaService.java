@@ -6,6 +6,7 @@ import es.alexmoreno.domain.Transportista;
 import es.alexmoreno.domain.Transportista_Ruta;
 import es.alexmoreno.domain.Usuario;
 import es.alexmoreno.domain.Vehiculo;
+import es.alexmoreno.repository.RutaRepository;
 import es.alexmoreno.repository.TransportistaRepository;
 import es.alexmoreno.repository.UsuarioRepository;
 import es.alexmoreno.repository.VehiculoRepository;
@@ -25,6 +26,8 @@ public class TransportistaService {
     @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired
+    private RutaRepository rutaRepository;
+    @Autowired
     private  UserContext userContext;
     
     @Transactional
@@ -39,7 +42,16 @@ public class TransportistaService {
     }
     
     public Transportista buscarId(long id){
-        return transportistaRepository.findById(id).orElseThrow(()->new RuntimeException("El transportista buscado no existe"));
+        Usuario currentUser=userContext.getCurrentUser();
+        long idUser=currentUser.getIdUsuario();
+        Transportista transportista=transportistaRepository.findById(id).orElseThrow(()->new RuntimeException("El transportista buscado no existe"));
+        if (currentUser.getRoles().contains(Rol.Admin)){
+            return transportista;
+        }else if (currentUser.getRoles().contains(Rol.Transportista) && idUser==transportista.getUsuario().getIdUsuario()){
+            return transportista;
+        }else{
+            throw new RuntimeException("No tienes permisos");
+        }
     }
     
     @Transactional
@@ -123,6 +135,33 @@ public class TransportistaService {
         }
     }
     
+    @Transactional
+    public Transportista asignarRuta(long id,long idRuta){
+        Usuario currentUser=userContext.getCurrentUser();
+        if(currentUser.getRoles().contains(Rol.Admin)){
+            Transportista transportista=buscarId(id);
+            Ruta ruta=rutaRepository.findById(idRuta).orElseThrow(()->new RuntimeException("Ruta no encontrada"));
+            Transportista_Ruta tR=new Transportista_Ruta();
+            tR.setRuta(ruta);
+            tR.setTransportista(transportista);
+            transportista.getTransportistaRutas().add(tR);
+            return transportistaRepository.save(transportista);
+        }else{
+            throw new RuntimeException("No tienes permisos"); 
+        }
+    }
+    
+    @Transactional
+    public Transportista eliminarRuta(long id,long idRuta){
+        Usuario currentUser=userContext.getCurrentUser();
+        if (currentUser.getRoles().contains(Rol.Admin)){
+            Transportista transportista=buscarId(id);
+            transportista.getTransportistaRutas().removeIf(tr->tr.getRuta().getIdRuta()==idRuta);
+            return transportistaRepository.save(transportista);
+        }else{
+            throw new RuntimeException("No tienes permisos");
+        }
+    }
     public List<Transportista> listarTodos(){
         Usuario currentUser=userContext.getCurrentUser();
         if (currentUser.getRoles().contains(Rol.Admin)){
